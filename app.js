@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 
 //implement your api here
 //follow instruction in http://localhost:8000/
-const calc = () => {
+const cal = () => {
   let gpax = courses.courses
     .map((course) => {
       return {
@@ -37,14 +37,14 @@ const calc = () => {
   console.log(courses.gpax);
 };
 
-const writeJSON = () => {
+const write = () => {
   let db = JSON.stringify(courses, null, 2);
   fs.writeFileSync("myCourses.json", db);
 };
 
 const sync = () => {
-  calc();
-  writeJSON();
+  cal();
+  write();
 };
 
 /**
@@ -64,7 +64,7 @@ app.get("/courses/:id", (req, res) => {
   const responseObj = { success: true, data: course };
   if (course != null) {
     res.status(200).json(responseObj);
-  } else {
+  }else{
     res.status(404).json({ success: false, data: null });
   }
 });
@@ -80,7 +80,7 @@ app.delete("/courses/:id", (req, res) => {
   if (courses.courses.length < size) {
     sync();
     res.status(200).json({ success: true, data: courses.courses });
-  } else {
+  }else{
     res.status(404).json({ success: false, data: courses.courses });
   }
 });
@@ -96,8 +96,7 @@ app.post("/addCourse", (req, res) => {
     courseName !== undefined &&
     credit !== undefined &&
     gpa !== undefined
-  ) {
-    const newCourse = {
+  ){  const newCourse = {
       courseId: courseId,
       courseName: courseName,
       credit: credit,
@@ -106,7 +105,7 @@ app.post("/addCourse", (req, res) => {
     courses.courses.push(newCourse);
     sync();
     res.status(201).send({ success: true, data: newCourse });
-  } else {
+  }else{
     res.status(422).send({ success: false, error: "ใส่ข้อมูลไม่ครบ" });
   }
 });
